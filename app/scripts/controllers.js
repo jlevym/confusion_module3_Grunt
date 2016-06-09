@@ -71,7 +71,7 @@ angular.module('confusionApp')
 
             $scope.dish= menuFactory.getDish(3);
             
-            $scope.dish = dish;
+            
             
         }])
 
@@ -94,15 +94,17 @@ angular.module('confusionApp')
              
                 
                 // Step 3: Push your comment into the dish's comment array
+                //Step 4: reset your form to pristine
+                //Step 5: reset your JavaScript object that holds your comment
+
+
                $scope.dish.comments.push($scope.feedback);
                $scope.feedback = {rating:"5", comment:"", author:"", date: ""};
                     $scope.feedbackForm.$setPristine();
                     console.log($scope.feedback);
 
                 
-                //Step 4: reset your form to pristine
                 
-                //Step 5: reset your JavaScript object that holds your comment
             }
         }])
 
