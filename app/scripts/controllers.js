@@ -8,7 +8,8 @@ angular.module('confusionApp')
             $scope.filtText = '';
             $scope.showDetails = false;
 
-         	$scope.dishes= menuFactory.getDishes();
+            $scope.dishes= menuFactory.getDishes();
+
                         
             $scope.select = function(setTab) {
                 $scope.tab = setTab;
@@ -67,45 +68,49 @@ angular.module('confusionApp')
             };
         }])
 
-          .controller('DishDetailController', ['$scope', 'menuFactory', function($scope, menuFactory) {
+        .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
 
-            $scope.dish= menuFactory.getDish(3);
+            var dish= menuFactory.getDish(parseInt($stateParams.id,10));
             
-            
+            $scope.dish = dish;
             
         }])
 
         .controller('DishCommentController', ['$scope', function($scope) {
-
-
-           $scope.feedback = {rating: "5", comment:"", author:"", date: ""};
-          
-           var commentObject = $scope.feedback
-           
-            //Step 1: Create a JavaScript object to hold the comment from the form
+            
+            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             
             $scope.submitComment = function () {
-
-              console.log("boy",$scope.feedback);
-        
                 
-                //Step 2: This is how you record the date
-             $scope.feedback.date = new Date().toISOString();
-             
+                $scope.mycomment.date = new Date().toISOString();
+                console.log($scope.mycomment);
                 
-                // Step 3: Push your comment into the dish's comment array
-                //Step 4: reset your form to pristine
-                //Step 5: reset your JavaScript object that holds your comment
-
-
-               $scope.dish.comments.push($scope.feedback);
-               $scope.feedback = {rating:"5", comment:"", author:"", date: ""};
-                    $scope.feedbackForm.$setPristine();
-                    console.log($scope.feedback);
-
+                $scope.dish.comments.push($scope.mycomment);
                 
+                $scope.commentForm.$setPristine();
                 
+                $scope.mycomment = {rating:5, comment:"", author:"", date:""};
             }
         }])
 
+            .controller('AboutController', ['$scope', 'corporateFactory',function($scope, corporateFactory) {
+            $scope.leaders = corporateFactory.getLeaders();
+           
+ 
+         }])
+
+        // implement the IndexController 
+        .controller('IndexController', ['$scope','menuFactory','corporateFactory' , function($scope, menuFactory, corporateFactory) {
+           $scope.dish = menuFactory.getDish(0);  
+           $scope.promotion = menuFactory.getPromotion(0);
+           $scope.leader = corporateFactory.getLeader(3);
+           
+
+
+        }])
+
+
+
+
+         //http://stackoverflow.com/questions/20181323/passing-data-between-controllers-in-angular-js
 ;
